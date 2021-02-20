@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Document</title>
+        <link
+            rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+        />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <form>
+                <div class="form-group">
+                    <label for="sel1">Select list (select one):</label>
+                    <select class="form-control" id="sel1" onchange="myfunction(this.value)">
+                        <option>Select One</option>
+                        <option>5</option>
+                        <option>6</option>
+                        <option>7</option>
+                    </select>
+                </div>
+            </form>
+            <table>
+                <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Select</th>
+                        <th scope="col">Id</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Score</th>
+                      </tr>
+                    </thead>
+                    <tbody id="tablerow">
+
+                    </tbody>
+            </table>
+            <h1>Total Score : <span id="total"></span></h1>
+        </div>
+        <script type="text/javascript">
+            $total = 0 ;
+            function myfunction(data){
+                //alert(data);
+                $total = 0;
+                document.getElementById("total").innerHTML = $total ;
+                var req = new XMLHttpRequest();
+                req.open("GET","table.php?q="+data,true);
+                req.send();
+
+                req.onreadystatechange = function(){
+                    if(req.readyState == 4 && req.status==200){
+                        document.getElementById("tablerow").innerHTML = req.responseText;
+                    }
+                }
+            }
+
+            $( document ).ready(function() {
+                document.getElementById("total").innerHTML = $total ;
+            });
+
+            $(document).on('click','.check_box',function(){
+                if($(this).is(":checked")){
+                    $total += parseInt($(this).val());
+
+                }else {
+                    $total -= parseInt($(this).val());
+                }
+                document.getElementById("total").innerHTML = $total ;
+            })
+        </script>
+    </body>
+</html>
